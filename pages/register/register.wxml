@@ -1,0 +1,13 @@
+<!--pages/register/register.wxml-->
+<view style="text-align: center; margin-top: 10%;font-size: x-large;">注册</view>
+
+
+<view style="margin-top: 20%;" class="van-hairline--surround">
+  <van-cell-group inset>
+    <van-field model:value="{{ username }}" clearable label="用户名" placeholder="请输入用户名" />
+    <van-field model:value="{{ password }}" type="password" label="密码" clearable placeholder="请输入密码" border="{{ false }}" />
+    <button style="width: 100%; background-color: rgb(7,193,96); margin-top: 1%; color: white;" bindtap="submit">
+    注册
+    </button>
+  </van-cell-group>
+</view>

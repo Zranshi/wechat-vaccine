@@ -1,0 +1,11 @@
+<!--pages/home/home.wxml-->
+<view>
+  <swiper indicator-dots="true" autoplay="true" interval="5000" duration="1000" style="height: 210px">
+    <block wx:for="{{movies}}" wx:for-index="index">
+      <swiper-item>
+        <image src="{{item.url}}" class="slide-image" mode="widthFix" style="width: 100%; height: 600px;" />
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<van-notice-bar scrollable left-icon="volume-o" text="服糖丸防瘫防残防麻痹，种疫苗利国利民利自己。" />

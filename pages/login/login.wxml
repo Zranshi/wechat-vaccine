@@ -1,0 +1,15 @@
+<!--pages/login/login.wxml-->
+
+<view style="text-align: center; margin-top: 10%;font-size: x-large;">登录</view>
+<view style="margin-top: 20%;" class="van-hairline--surround">
+  <van-cell-group inset>
+    <van-field model:value="{{ username }}" clearable label="用户名" placeholder="请输入用户名" />
+    <van-field model:value="{{ password }}" type="password" label="密码" clearable placeholder="请输入密码" border="{{ false }}" />
+    <button style="width: 100%; background-color: rgb(25,137,250,0.8); margin-top: 1%; color: white;" bindtap="submit">
+      登录
+    </button>
+    <button style="width: 100%; background-color: rgb(7,193,96,0.8); margin-top: 1%; color: white;" bindtap="redirectToRegister">
+      注册
+    </button>
+  </van-cell-group>
+</view>

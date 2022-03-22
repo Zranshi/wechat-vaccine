@@ -1,0 +1,63 @@
+<!--pages/setting/setting.wxml-->
+<van-cell-group inset>
+  <!-- 用户名 -->
+  <van-cell title="用户名" value="{{username}}" icon="user-o" size="large" is-link bind:click="showEditUsername" />
+  <van-dialog use-slot title="修改用户名" model:show="{{ usernameEditShow }}" show-confirm-button show-cancel-button bind:confirm="submitEditUsername">
+    <van-cell-group inset class="van-hairline--surround">
+      <van-field clearable model:value="{{ newUsername }}" label="新用户名" placeholder="请输入更改后的用户名" />
+    </van-cell-group>
+  </van-dialog>
+
+  <!-- 手机号码 -->
+  <van-cell title="手机号" value="{{phoneNum}}" icon="phone-o" size="large" is-link bind:click="showEditPhone" />
+  <van-dialog use-slot title="修改手机号" model:show="{{ phoneNumEditShow }}" show-confirm-button show-cancel-button bind:confirm="submitEditPhone">
+    <van-cell-group inset class="van-hairline--surround">
+      <van-field clearable model:value="{{ newPhoneNum }}" label="新手机号" placeholder="请输入更改后的手机号" />
+    </van-cell-group>
+  </van-dialog>
+
+  <!-- 年龄 -->
+  <van-cell title="年龄" value="{{ age }}" icon="fire-o" size="large" is-link bind:click="showEditAge" />
+  <van-dialog use-slot title="修改年龄" model:show="{{ ageEditShow }}" show-confirm-button show-cancel-button bind:confirm="submitEditAge">
+    <van-cell-group inset class="van-hairline--surround">
+      <van-field clearable model:value="{{ newAge }}" label="年龄" placeholder="用户的年龄" type="digit" />
+    </van-cell-group>
+  </van-dialog>
+
+  <!-- 性别 -->
+  <van-cell title="性别" value="{{ gender }}" icon="like-o" size="large" is-link bind:click="showEditGender" />
+  <van-dialog use-slot title="修改性别" model:show="{{ genderEditShow }}" show-confirm-button show-cancel-button bind:confirm="submitEditGender">
+    <van-cell-group inset class="van-hairline--surround">
+      <van-field clearable model:value="{{ newGender }}" label="性别" placeholder="用户的性别" />
+    </van-cell-group>
+  </van-dialog>
+
+  <van-cell icon="orders-o" title="过敏史" title-width="30%" model:value="{{allergy}}" />
+  <van-cell icon="orders-o" title="不良反应史" title-width="30%" model:value="{{adverseReaction}}" />
+
+
+  <!-- 修改密码 -->
+  <van-cell title="修改密码" icon="edit" size="large" is-link bind:click="showEditPassword" />
+  <van-dialog use-slot title="修改密码" model:show="{{ passwordEditShow }}" show-confirm-button show-cancel-button bind:confirm="submitEditPassword">
+    <van-cell-group inset class="van-hairline--surround">
+      <van-field clearable model:value="{{ newPassword }}" label="新密码" placeholder="请输入更改后的密码" />
+    </van-cell-group>
+  </van-dialog>
+
+
+  <!-- 过敏史/不良反应 -->
+  <van-cell title="修改个人信息" icon="edit" size="large" is-link bind:click="showEditUserInfo" />
+  <van-dialog use-slot title="修改个人信息" model:show="{{ userInfoEditShow }}" show-confirm-button show-cancel-button bind:confirm="submitEditPassword">
+    <van-cell-group inset class="van-hairline--surround">
+      <van-field clearable model:value="{{ allergy }}" label="过敏史" type="textarea" autosize />
+      <van-field clearable model:value="{{ adverseReaction }}" label="不良反应史" type="textarea" autosize />
+    </van-cell-group>
+  </van-dialog>
+  <button style="width: 100%; background-color: rgba(25, 137, 250, 0.8); margin-top: 1%; color: white;" bindtap="signOut">
+    退出登录
+  </button>
+
+  <button style="width: 100%; background-color: rgba(238, 10, 37, 0.8); margin-top: 1%; color: white;" bindtap="logOut">
+    注销账号
+  </button>
+</van-cell-group>

@@ -1,0 +1,44 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/setting/setting",
+    "pages/home/home",
+    "pages/reserve/reserve",
+    "pages/admin/admin",
+    "pages/register/register"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "微疫苗",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "static/image/home.png",
+        "selectedIconPath": "static/image/home-filling.png"
+      },
+      {
+        "pagePath": "pages/reserve/reserve",
+        "iconPath": "static/image/check-item.png",
+        "selectedIconPath": "static/image/check-item-filling.png"
+      },
+      {
+        "pagePath": "pages/setting/setting",
+        "iconPath": "static/image/setting.png",
+        "selectedIconPath": "static/image/setting-filling.png"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 20000,
+    "connectSocket": 20000,
+    "uploadFile": 2000000,
+    "downloadFile": 2000000
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
