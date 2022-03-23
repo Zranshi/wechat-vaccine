@@ -1,5 +1,7 @@
 // pages/login/login.js
 
+const user = require("../../apis/user");
+
 Page({
   /**
    * 页面的初始数据
@@ -10,11 +12,29 @@ Page({
   },
 
   submit: function () {
-    console.log("username:", this.data.username);
-    console.log("password:", this.data.password);
-    // 发送请求，验证成功则跳转至home页面，如果不成功则
-    wx.switchTab({
-      url: "/pages/home/home",
+    // 发送请求，验证成功则跳转至home页面，如果不成功则响应登录失败
+    user.login(this.data.username, this.data.password, function (res) {
+      const data = res.data;
+      if (data.UserId !== -1) {
+        wx.setStorage({
+          key: "uid",
+          data: data.UserId,
+        });
+        if (data.msg === "管理员") {
+          wx.setStorage({
+            key: "permission",
+            data: true,
+          });
+        }
+        wx.switchTab({
+          url: "/pages/home/home",
+        });
+      } else {
+        wx.showToast({
+          title: "登录失败",
+          icon: "error",
+        });
+      }
     });
   },
 

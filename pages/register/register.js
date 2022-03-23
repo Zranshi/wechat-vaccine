@@ -1,4 +1,6 @@
 // pages/register/register.js
+const user = require("../../apis/user");
+
 Page({
   /**
    * 页面的初始数据
@@ -9,10 +11,8 @@ Page({
   },
 
   submit: function () {
-    console.log('username:', this.data.username)
-    console.log('password:', this.data.password)
-    wx.switchTab({
-      url: "/pages/home/home",
+    user.register(this.data.username, this.data.password, function (res) {
+      console.log(res);
     });
   },
 

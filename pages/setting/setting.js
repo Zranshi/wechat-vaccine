@@ -1,4 +1,6 @@
 // pages/setting/setting.js
+const app = getApp();
+const baseUrl = app.globalData.baseUrl;
 
 Page({
   /**
@@ -19,10 +21,9 @@ Page({
     gender: "我是一个性别",
     newGender: "",
     genderEditShow: false,
-    allergy: "我是一个过敏史，我是一个过敏史，我是一个过敏史。",
+    allergy: "我是一个过敏史。",
     newAllergy: "",
-    adverseReaction:
-      "我是一个不良反应史，我是一个不良反应史，我是一个不良反应史。",
+    adverseReaction: "我是一个不良反应史。",
     newAdverseReaction: "",
     userInfoEditShow: false,
   },
@@ -110,8 +111,6 @@ Page({
   showEditUserInfo: function () {
     this.setData({
       userInfoEditShow: true,
-      newAdverseReaction: this.data.adverseReaction,
-      newAllergy: this.data.allergy,
     });
   },
   submitEditUserInfo: function () {

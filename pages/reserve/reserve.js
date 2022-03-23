@@ -1,4 +1,7 @@
 // pages/reserve/reserve.js
+const app = getApp();
+const baseUrl = app.globalData.baseUrl;
+
 Page({
   /**
    * 页面的初始数据
