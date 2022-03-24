@@ -1,0 +1,27 @@
+<!--pages/vaccine/details/details.wxml-->
+<van-cell style="text-align: center" title="{{type}}" size="large" wx:if="{{type != ''}}" />
+<van-cell style="text-align: center" title="疫苗" size="large" wx:else="{{type == ''}}" />
+
+<van-cell-group>
+  <van-field model:value="{{ type }}" placeholder="请输入疫苗种类" border="{{ false }}" label="疫苗种类：" input-align="right" type="textarea" autosize />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ code }}" border="{{ false }}" placeholder="请输入产品编码" label="产品编码：" input-align="right" type="textarea" autosize />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ number }}" border="{{ false }}" placeholder="请输入批号" label="批号：" input-align="right" type="textarea" autosize />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ company }}" border="{{ false }}" placeholder="请输入生产公司" label="生产公司：" input-align="right" type="textarea" autosize />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ details }}" border="{{ false }}" placeholder="请输入疫苗详情" label="疫苗详情：" input-align="right" type="textarea" autosize />
+</van-cell-group>
+
+<van-button style="position: absolute; top: 90%; left: 50%; transform: translate(-50%, -50%);" type="primary" bind:click="save">保存修改</van-button>
+
+<van-toast id="van-toast" />

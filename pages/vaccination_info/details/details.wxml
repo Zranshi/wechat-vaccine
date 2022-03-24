@@ -1,0 +1,53 @@
+<!--pages/vaccination_info/details/details.wxml-->
+<van-cell style="text-align: center" title="{{place}}" size="large" wx:if="{{place != ''}}" />
+<van-cell style="text-align: center" title="接种点" size="large" wx:else="{{place == ''}}" />
+
+<van-cell-group>
+  <van-field model:value="{{ place }}" placeholder="请输入接种点" border="{{ false }}" label="接种点：" input-align="right" type="textarea" autosize />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field border="{{ false }}" label="开放时间：" readonly />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ dose }}" placeholder="请输入剩余剂量" border="{{ false }}" label="剩余剂量：" input-align="right" type="textarea" autosize />
+</van-cell-group>
+
+<van-cell-group wx:if="{{add_or_update == 'update'}}">
+  <van-field model:value="{{ rank }}" placeholder="请输入排队人数" border="{{ false }}" label="排队人数：" input-align="right" type="textarea" autosize />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ vid }}" placeholder="请输入接种地疫苗ID" border="{{ false }}" label="疫苗ID：" input-align="right" type="textarea" autosize use-button-slot>
+    <van-button slot="button" size="small" type="check_vid" bind:click="check_vid">
+      检查
+    </van-button>
+  </van-field>
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ type }}" border="{{ false }}" label="疫苗种类：" input-align="right" type="textarea" autosize disabled />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ code }}" border="{{ false }}" label="产品编码：" input-align="right" type="textarea" autosize disabled />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ number }}" border="{{ false }}" label="批号：" input-align="right" type="textarea" autosize disabled />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ company }}" border="{{ false }}" label="生产公司：" input-align="right" type="textarea" autosize disabled />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ details }}" border="{{ false }}" label="疫苗详情：" input-align="right" type="textarea" autosize disabled />
+</van-cell-group>
+
+<van-button style="position: absolute; top: 90%; left: 50%; transform: translate(-50%, -50%);" type="primary" bind:click="save">保存修改</van-button>
+
+<van-toast id="van-toast" />
+
+<date-time-picker value="{{vtime}}" bind:change="handleChange" style="position: absolute; top: 210rpx; right: 30rpx; font-size: small; z-index: 100">{{vtime}}</date-time-picker>

@@ -1,0 +1,12 @@
+<van-cell style="text-align: center" title="疫苗接种点信息" size="large" />
+
+<van-cell-group inset>
+  <van-swipe-cell right-width="{{ 65 }}" wx:for="{{vaccination_info}}" wx:for-item="vaccination_info" wx:key="id" async-close bind:close="onClose">
+    <van-cell style="white-space:pre-line" bindtap="vaccination_info_details" data-bean="{{vaccination_info}}" title="{{vaccination_info.place}}\n\n{{vaccination_info.vtime}}" value="排队人数：{{vaccination_info.rank}}\n剩余剂量：{{vaccination_info.dose}}\n疫苗种类：{{vaccination_info.type}}" />
+    <view slot="right" class="van-swipe-cell-right" bindtap="del_vac_info" data-bean="{{vaccination_info}}">删除</view>
+  </van-swipe-cell>
+</van-cell-group>
+
+<van-dialog id="van-dialog" />
+
+<van-button icon="add-o" type="primary" style="position: absolute; top: 10rpx; right: 10rpx;" bind:click="add_infomation"></van-button>

@@ -1,0 +1,8 @@
+<!--pages/control/control.wxml-->
+<van-image round width="20rem" height="20rem" src="https://ranshi-cnd-1305893362.cos.ap-guangzhou.myqcloud.com/uPic/2022.03.24-18:40:30-hnYGJf.jpg" style="display: flex; justify-content: center;" />
+
+<view style="position: relative; top: 130rpx;">
+  <van-button type="info" bindtap="vaccine" class="control-button-center">疫苗信息</van-button>
+  <van-button type="warning" bindtap="vaccination_info" class="control-button-center">接种点信息</van-button>
+  <van-button type="primary" bindtap="vaccination_details" class="control-button-center">用户接种情况</van-button>
+</view>

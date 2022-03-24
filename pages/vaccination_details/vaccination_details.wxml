@@ -1,0 +1,13 @@
+<!--pages/vaccination_details/vaccination_details.wxml-->
+<van-cell style="text-align: center" title="用户接种明细" size="large" />
+
+<van-cell-group inset>
+  <view right-width="{{ 65 }}" wx:for="{{vaccination_details}}" wx:for-item="vaccination_details" wx:key="id" async-close bind:close="onClose">
+    <van-cell style="white-space:pre-line" data-bean="{{vaccination_details}}" title="{{vaccination_details.real_name}}\n\n{{vaccination_details.vaccinateTime}}" value="疫苗种类：{{vaccination_details.type}}\n接种地：{{vaccination_details.place}}\n接种医生：{{vaccination_details.doctorName}}" />
+    <!-- <view slot="right" class="van-swipe-cell-right" bindtap="del_vac_info" data-bean="{{vaccination_details}}">删除</view>    van-swipe-cell   -->
+  </view>
+</van-cell-group>
+
+<van-dialog id="van-dialog" />
+
+<van-button icon="add-o" type="primary" style="position: absolute; top: 10rpx; right: 10rpx;" bind:click="add_infomation"></van-button>

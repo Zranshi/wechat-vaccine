@@ -1,0 +1,13 @@
+<!--pages/vaccine/vaccine.wxml-->
+<van-cell style="text-align: center" title="疫苗信息" size="large" />
+
+<van-cell-group inset>
+  <van-swipe-cell right-width="{{ 65 }}" wx:for="{{vaccine}}" wx:for-item="vaccine" wx:key="id" async-close bind:close="onClose">
+    <van-cell style="white-space:pre-line" bindtap="vaccine_details" data-bean="{{vaccine}}" title="{{vaccine.type}}\n\n{{vaccine.simple_company}}" value="产品编码：{{vaccine.code}}\n批号：{{vaccine.number}}\n疫苗详情：{{vaccine.simple_details}}" />
+    <view slot="right" class="van-swipe-cell-right" bindtap="del_vac_info" data-bean="{{vaccine}}">删除</view>
+  </van-swipe-cell>
+</van-cell-group>
+
+<van-dialog id="van-dialog" />
+
+<van-button icon="add-o" type="primary" style="position: absolute; top: 10rpx; right: 10rpx;" bind:click="add_infomation"></van-button>

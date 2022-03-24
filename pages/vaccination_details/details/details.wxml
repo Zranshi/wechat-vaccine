@@ -1,0 +1,45 @@
+<!--pages/vaccination_details/details/details.wxml-->
+<van-cell style="text-align: center" title="{{real_name}}" size="large" wx:if="{{real_name != ''}}" />
+<van-cell style="text-align: center" title="姓名" size="large" wx:else="{{real_name == ''}}" />
+
+<van-cell-group>
+  <van-field model:value="{{ doctorName }}" placeholder="请输入接种医生姓名" border="{{ false }}" label="接种医生：" input-align="right" type="textarea" autosize />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field border="{{ false }}" label="接种时间：" readonly />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ uid }}" placeholder="请输入接种用户ID" border="{{ false }}" label="用户ID：" input-align="right" type="textarea" autosize use-button-slot>
+    <van-button slot="button" size="small" type="check_uid" bind:click="check_uid">
+      检查
+    </van-button>
+  </van-field>
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ real_name }}" border="{{ false }}" label="用户姓名：" input-align="right" type="textarea" autosize disabled />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ viid }}" placeholder="请输入接种地ID" border="{{ false }}" label="接种地ID：" input-align="right" type="textarea" autosize use-button-slot>
+    <van-button slot="button" size="small" type="check_viid" bind:click="check_viid">
+      检查
+    </van-button>
+  </van-field>
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ place }}" border="{{ false }}" label="接种地：" input-align="right" type="textarea" autosize disabled />
+</van-cell-group>
+
+<van-cell-group>
+  <van-field model:value="{{ type }}" border="{{ false }}" label="疫苗种类：" input-align="right" type="textarea" autosize disabled />
+</van-cell-group>
+
+<van-button style="position: absolute; top: 90%; left: 50%; transform: translate(-50%, -50%);" type="primary" bind:click="save">保存修改</van-button>
+
+<van-toast id="van-toast" />
+
+<date-time-picker value="{{vaccinateTime}}" bind:change="handleChange" style="position: absolute; top: 210rpx; right: 30rpx; font-size: small; z-index: 100">{{vaccinateTime}}</date-time-picker>

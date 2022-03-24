@@ -77,9 +77,9 @@ Page({
       url: "/pages/reserve/reserve",
     });
   },
-  navigateToAdmin: function () {
+  navigateToControl: function () {
     wx.navigateTo({
-      url: "/pages/admin/admin",
+      url: "/pages/control/control",
     });
   },
 

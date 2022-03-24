@@ -1,12 +1,18 @@
 {
   "pages": [
-    "pages/reserve/reserve",
-    "pages/login/login",
     "pages/home/home",
-    "pages/setting/setting",
-    "pages/admin/admin",
+    "pages/vaccine/details/details",
     "pages/register/register",
-    "pages/reserve_info/reserve_info"
+    "pages/vaccine/vaccine",
+    "pages/control/control",
+    "pages/login/login",
+    "pages/reserve/reserve",
+    "pages/setting/setting",
+    "pages/reserve_info/reserve_info",
+    "pages/vaccination_info/vaccination_info",
+    "pages/vaccination_info/details/details",
+    "pages/vaccination_details/vaccination_details",
+    "pages/vaccination_details/details/details"
   ],
   "window": {
     "backgroundTextStyle": "light",
