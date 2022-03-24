@@ -1,2 +1,10 @@
 <!--pages/reserve/reserve.wxml-->
-<text>pages/reserve/reserve.wxml</text>
+<view wx:for="{{vaccines}}" wx:for-index="index" wx:key="item">
+  <van-cell-group inset class="van-hairline--surround">
+    <van-cell title="疫苗种类" value="{{item.type}}" />
+    <van-cell title="生产公司" value="{{item.company}}" />
+    <van-cell title="详情信息" title-width="20%" value="{{item.details}}" />
+    <van-button type="info" block bind:click="navigateToServer" bind:click="selectPlace" data-id="{{item.id}}">选择接种地</van-button>
+  </van-cell-group>
+  <van-divider />
+</view>

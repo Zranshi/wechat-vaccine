@@ -1,11 +1,12 @@
 {
   "pages": [
-    "pages/login/login",
-    "pages/setting/setting",
-    "pages/home/home",
     "pages/reserve/reserve",
+    "pages/login/login",
+    "pages/home/home",
+    "pages/setting/setting",
     "pages/admin/admin",
-    "pages/register/register"
+    "pages/register/register",
+    "pages/reserve_info/reserve_info"
   ],
   "window": {
     "backgroundTextStyle": "light",

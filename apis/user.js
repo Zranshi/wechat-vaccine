@@ -1,4 +1,3 @@
-// import r from "./request";
 const request = require("./request");
 
 module.exports = {
@@ -26,41 +25,19 @@ module.exports = {
   },
   userInfo: function (uid, callBack) {
     request({
-      url: "/user/userinfo",
+      url: "/user/info/getByUid",
       method: "GET",
       data: {
-        id: uid,
+        uid: uid,
       },
       success: callBack,
     });
   },
-  editUsername: function (username, callBack) {
+  updata: function (data, callBack) {
     request({
-      url: "/user/edit_username",
-      method: "PUT",
-      data: {
-        username: username,
-      },
-      success: callBack,
-    });
-  },
-  editPhone: function (phone, callBack) {
-    request({
-      url: "/user/edit_phone",
-      method: "PUT",
-      data: {
-        phone: phone,
-      },
-      success: callBack,
-    });
-  },
-  editPassword: function (password, callBack) {
-    request({
-      url: "/user/edit_password",
-      method: "PUT",
-      data: {
-        password: password,
-      },
+      url: "/user/info/update",
+      method: "GET",
+      data: data,
       success: callBack,
     });
   },

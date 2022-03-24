@@ -1,6 +1,8 @@
 // app.js
 App({
-  onLaunch() {},
+  onLaunch() {
+    wx.clearStorage();
+  },
 
   globalData: {},
 });

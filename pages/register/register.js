@@ -12,7 +12,22 @@ Page({
 
   submit: function () {
     user.register(this.data.username, this.data.password, function (res) {
-      console.log(res);
+      const data = res.data;
+      if (data.msg === "注册失败,输入不合法") {
+        wx.showToast({
+          title: "不合法的输入",
+          icon: "error",
+        });
+      } else if (data.msg === "注册失败,用户名已存在") {
+        wx.showToast({
+          title: "用户已存在",
+          icon: "error",
+        });
+      } else if (data.msg === "注册成功") {
+        wx.navigateTo({
+          url: "/pages/login/login",
+        });
+      }
     });
   },
 

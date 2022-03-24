@@ -1,29 +1,29 @@
 // pages/setting/setting.js
-const app = getApp();
-const baseUrl = app.globalData.baseUrl;
+const user = require("../../apis/user");
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    username: "我是一个用户名",
+    uid: 0,
+    username: "",
     newUsername: "",
     usernameEditShow: false,
-    phoneNum: "我是一个手机号",
+    phoneNum: "",
     newPhoneNum: "",
     phoneNumEditShow: false,
     newPassword: "",
     passwordEditShow: false,
-    age: 20,
-    newAge: 0,
+    age: "",
+    newAge: "",
     ageEditShow: false,
-    gender: "我是一个性别",
+    gender: "",
     newGender: "",
     genderEditShow: false,
-    allergy: "我是一个过敏史。",
+    allergy: "",
     newAllergy: "",
-    adverseReaction: "我是一个不良反应史。",
+    adverseReaction: "",
     newAdverseReaction: "",
     userInfoEditShow: false,
   },
@@ -34,15 +34,20 @@ Page({
     });
   },
   submitEditUsername: function () {
-    // TODO 发送修改的数据到后端, 如果成功则更改username和newUsername
-    this.setData({
-      username: this.data.newUsername,
-      newUsername: "",
-    });
-    wx.showToast({
-      title: "更改成功",
-      icon: "success",
-    });
+    const that = this;
+    user.updata(
+      { uid: that.data.uid, username: that.data.newUsername },
+      function (res) {
+        that.setData({
+          username: that.data.newUsername,
+          newUsername: "",
+        });
+        wx.showToast({
+          title: "更改成功",
+          icon: "success",
+        });
+      }
+    );
   },
 
   showEditPhone: function () {
@@ -51,24 +56,27 @@ Page({
     });
   },
   submitEditPhone: function () {
-    // TODO 发送修改的数据到后端, 如果成功则更改phone和newUsername
-    if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(this.data.newPhoneNum)) {
+    const that = this;
+    if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(that.data.newPhoneNum)) {
       wx.showToast({
         title: "不正确的手机号",
         icon: "error",
       });
     } else {
-      this.setData({
-        phoneNum: this.data.newPhoneNum,
-      });
-      wx.showToast({
-        title: "更改成功",
-        icon: "success",
+      user.updata(
+        { uid: that.data.uid, phone: that.data.newPhoneNum },
+        function (res) {
+          wx.showToast({
+            title: "更改成功",
+            icon: "success",
+          });
+        }
+      );
+      that.setData({
+        phoneNum: that.data.newPhoneNum,
+        newPhoneNum: "",
       });
     }
-    this.setData({
-      newPhoneNum: "",
-    });
   },
 
   showEditAge: function () {
@@ -77,8 +85,19 @@ Page({
     });
   },
   submitEditAge: function () {
-    this.setData({
-      age: this.data.newAge,
+    const that = this;
+    user.updata(
+      { uid: that.data.uid, age: Number(that.data.newAge) },
+      function (res) {
+        wx.showToast({
+          title: "更改成功",
+          icon: "success",
+        });
+      }
+    );
+    that.setData({
+      age: that.data.newAge,
+      newAge: 0,
     });
   },
 
@@ -88,8 +107,18 @@ Page({
     });
   },
   submitEditGender: function () {
-    this.setData({
-      gender: this.data.newGender,
+    const that = this;
+    user.updata(
+      { uid: that.data.uid, gender: that.data.newGender },
+      function (res) {
+        wx.showToast({
+          title: "更改成功",
+          icon: "success",
+        });
+      }
+    );
+    that.setData({
+      gender: that.data.newGender,
       newGender: "",
     });
   },
@@ -111,22 +140,40 @@ Page({
   showEditUserInfo: function () {
     this.setData({
       userInfoEditShow: true,
+      newAllergy: this.data.allergy,
+      newAdverseReaction: this.data.newAdverseReaction,
     });
   },
   submitEditUserInfo: function () {
-    this.setData({
-      allergy: this.data.newAllergy,
-      adverseReaction: this.data.newAdverseReaction,
-    });
+    const that = this;
+    user.updata(
+      {
+        uid: that.data.uid,
+        allergy: that.data.newAllergy,
+        adverseReaction: that.data.newAdverseReaction,
+      },
+      function (res) {
+        that.setData({
+          allergy: that.data.newAllergy,
+          adverseReaction: that.data.newAdverseReaction,
+        });
+        wx.showToast({
+          title: "更改成功",
+          icon: "success",
+        });
+      }
+    );
   },
 
   signOut: function () {
+    wx.clearStorage();
     wx.redirectTo({
       url: "/pages/login/login",
     });
   },
 
   logOut: function () {
+    wx.clearStorage();
     wx.redirectTo({
       url: "/pages/login/login",
       success: function () {
@@ -140,6 +187,26 @@ Page({
    */
   onLoad: function (options) {
     // TODO 加载用户数据
+    const that = this;
+    wx.getStorage({
+      key: "uid",
+      success: function (res) {
+        const uid = res.data;
+        user.userInfo(uid, function (res) {
+          const data = res.data;
+          // this.data.username = data.username;
+          that.setData({
+            uid: uid,
+            username: data.username,
+            phoneNum: data.us.phone,
+            gender: data.us.gender,
+            age: data.us.age,
+            allergy: data.us.allergy,
+            adverseReaction: data.us.adverseReaction,
+          });
+        });
+      },
+    });
   },
 
   /**

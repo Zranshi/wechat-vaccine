@@ -9,3 +9,11 @@
   </swiper>
 </view>
 <van-notice-bar scrollable left-icon="volume-o" text="服糖丸防瘫防残防麻痹，种疫苗利国利民利自己。" />
+<van-cell-group class="van-hairline--surround" inset>
+  <van-button type="info" size="large" plain block round bind:click="navigateToServer">接种疫苗，从我做起</van-button>
+  <van-button type="primary" size="large" plain round wx:if="{{permission}}" block bind:click="navigateToAdmin">进入管理员页面</van-button>
+</van-cell-group>
+<van-divider contentPosition="left">疫苗类型</van-divider>
+<view class="box" style="height:600rpx;width:100%">
+  <ec-canvas id="vaccine-type-chart" canvas-id="vaccine-type-chart" ec="{{ ecPie }}" force-use-old-canvas="true"></ec-canvas>
+</view>

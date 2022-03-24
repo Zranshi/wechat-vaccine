@@ -1,0 +1,10 @@
+<!--pages/reserve_info/reserve_info.wxml-->
+<view wx:for="{{validVaccines}}" wx:for-index="index" wx:key="item">
+  <van-cell-group inset class="van-hairline--surround">
+    <van-cell title="接种地点" value="{{item.place}}" />
+    <van-cell title="开始时间" value="{{item.vtime}}" />
+    <van-cell title="排队人数" value="{{item.rank}}" />
+    <van-button type="info" block bind:click="navigateToServer" bind:click="reserve" data-item="{{item}}">预约</van-button>
+  </van-cell-group>
+  <van-divider />
+</view>

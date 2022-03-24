@@ -1,4 +1,4 @@
-// pages/reserve/reserve.js
+// pages/reserve_info/reserve_info.js
 const vaccine = require("../../apis/vaccine");
 
 Page({
@@ -6,14 +6,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-    vaccines: [],
+    vid: 0,
+    validVaccines: [],
   },
 
-  selectPlace: function (e) {
-    const id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: `/pages/reserve_info/reserve_info?id=${id}`,
-    });
+  reserve: function (e) {
+    const id = e.currentTarget.dataset.item;
   },
 
   /**
@@ -21,9 +19,12 @@ Page({
    */
   onLoad: function (options) {
     const that = this;
-    vaccine.getVaccines(function (res) {
+    that.setData({
+      vid: Number(options.id),
+    });
+    vaccine.getValidInfoById(options.id, function (res) {
       that.setData({
-        vaccines: res.data.vList,
+        validVaccines: res.data.viList,
       });
     });
   },
