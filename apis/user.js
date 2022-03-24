@@ -1,8 +1,8 @@
-const request = require("./request");
+const r = require("./request");
 
 module.exports = {
   login: function (username, password, callBack) {
-    request({
+    r({
       url: "/user/login",
       method: "GET",
       data: {
@@ -13,7 +13,7 @@ module.exports = {
     });
   },
   register: function (username, password, callBack) {
-    request({
+    r({
       url: "/user/register",
       method: "GET",
       data: {
@@ -24,17 +24,17 @@ module.exports = {
     });
   },
   userInfo: function (uid, callBack) {
-    request({
+    r({
       url: "/user/info/getByUid",
       method: "GET",
-      data: {
+        data: {
         uid: uid,
       },
       success: callBack,
     });
   },
   updata: function (data, callBack) {
-    request({
+    r({
       url: "/user/info/update",
       method: "GET",
       data: data,

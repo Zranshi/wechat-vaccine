@@ -1,4 +1,6 @@
 // pages/vaccination_details/details/details.js
+import user from "../../../apis/user";
+import vaccine from "../../../apis/vaccine";
 import Toast from "../../../miniprogram_npm/@vant/weapp/toast/toast";
 
 Page({
@@ -25,63 +27,34 @@ Page({
 
   check_uid() {
     let outer = this;
-
-    wx.request({
-      url: "http://172.20.10.3:8089/user/info/getByUid",
-      data: {
-        uid: parseInt(outer.data.uid),
-      },
-      header: {
-        "content-type": "application/json", // 默认值
-      },
-      success(res) {
-        console.log(res.data);
-        if (res.data.us == null) {
-          outer.setData({ real_name: "" });
-          Toast.fail("请核对用户ID");
-        } else {
-          outer.setData({ real_name: res.data.us.realName });
-        }
-      },
+    user.userInfo(parseInt(outer.data.uid), function (res) {
+      console.log(res.data);
+      if (res.data.us == null) {
+        outer.setData({ real_name: "" });
+        Toast.fail("请核对用户ID");
+      } else {
+        outer.setData({ real_name: res.data.us.realName });
+      }
     });
   },
 
   check_viid() {
-    let outer = this;
-
-    wx.request({
-      url: "http://172.20.10.2:8089/vi/info/find",
-      data: {
-        id: outer.data.viid,
-      },
-      header: {
-        "content-type": "application/json", // 默认值
-      },
-      success(res) {
-        if (res.data.vnInfo == null) {
-          outer.setData({
-            place: "",
-            type: "",
-          });
-          Toast.fail("请核对接种地ID");
-          return;
-        }
-        wx.request({
-          url: "http://172.20.10.2:8089/vaccine/getInfo",
-          data: {
-            id: res.data.vnInfo.vid,
-          },
-          header: {
-            "content-type": "application/json", // 默认值
-          },
-          success(resp) {
-            outer.setData({
-              place: res.data.vnInfo.place,
-              type: resp.data.vaccineInfo.type,
-            });
-          },
+    let that = this;
+    vaccine.infoFind(that.data.viid, function (res) {
+      if (res.data.vnInfo == null) {
+        that.setData({
+          place: "",
+          type: "",
         });
-      },
+        Toast.fail("请核对接种地ID");
+        return;
+      }
+      vaccine.infoById(res.data.vnInfo.vid, function (res) {
+        that.setData({
+          place: res.data.vnInfo.place,
+          type: resp.data.vaccineInfo.type,
+        });
+      });
     });
   },
 
@@ -105,7 +78,6 @@ Page({
 
     if (this.data.add_or_update == "add") this.setData({ id: -1 });
 
-    let url = "http://172.20.10.2:8089/vn/details/" + this.data.add_or_update;
     let param = {};
     param["doctorName"] = this.data.doctorName;
     param["uid"] = parseInt(this.data.uid);
@@ -114,21 +86,13 @@ Page({
     if (this.data.add_or_update == "update") {
       param["id"] = this.data.id;
     }
-
-    wx.request({
-      url: url,
-      data: param,
-      header: {
-        "content-type": "application/json", // 默认值
-      },
-      success(res) {
-        Toast.success("成功");
-        setTimeout(function () {
-          wx.navigateTo({
-            url: "../vaccination_details",
-          });
-        }, 500);
-      },
+    vaccine.detailAddOrUpdate(this.data.add_or_update, param, function (res) {
+      Toast.success("成功");
+      setTimeout(function () {
+        wx.navigateTo({
+          url: "../vaccination_details",
+        });
+      }, 500);
     });
   },
 

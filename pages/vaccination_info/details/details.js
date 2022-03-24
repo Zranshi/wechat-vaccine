@@ -1,6 +1,6 @@
 // pages/vaccination_info/details/details.js
 import Toast from "../../../miniprogram_npm/@vant/weapp/toast/toast";
-
+const vaccine = require("../../../apis/vaccine");
 Page({
   /**
    * 页面的初始数据
@@ -28,35 +28,25 @@ Page({
 
   check_vid() {
     let outer = this;
-
-    wx.request({
-      url: "http://172.20.10.2:8089/vaccine/getInfo",
-      data: {
-        id: parseInt(outer.data.vid),
-      },
-      header: {
-        "content-type": "application/json", // 默认值
-      },
-      success(res) {
-        if (res.data.result == "success") {
-          outer.setData({
-            type: res.data.vaccineInfo.type,
-            code: res.data.vaccineInfo.code,
-            number: res.data.vaccineInfo.number,
-            company: res.data.vaccineInfo.company,
-            details: res.data.vaccineInfo.details,
-          });
-        } else {
-          outer.setData({
-            type: "",
-            code: "",
-            number: "",
-            company: "",
-            details: "",
-          });
-          Toast.fail("请核对疫苗ID");
-        }
-      },
+    vaccine.infoById(parseInt(outer.data.vid), function (res) {
+      if (res.data.result == "success") {
+        outer.setData({
+          type: res.data.vaccineInfo.type,
+          code: res.data.vaccineInfo.code,
+          number: res.data.vaccineInfo.number,
+          company: res.data.vaccineInfo.company,
+          details: res.data.vaccineInfo.details,
+        });
+      } else {
+        outer.setData({
+          type: "",
+          code: "",
+          number: "",
+          company: "",
+          details: "",
+        });
+        Toast.fail("请核对疫苗ID");
+      }
     });
   },
 
@@ -85,7 +75,6 @@ Page({
       return;
     }
 
-    let url = "http://172.20.10.2:8089/vi/info/" + this.data.add_or_update;
     let param = {};
     param["place"] = this.data.place;
     param["vtime"] = this.data.vtime;
@@ -95,21 +84,13 @@ Page({
     if (this.data.add_or_update == "update") {
       param["id"] = this.data.id;
     }
-
-    wx.request({
-      url: url,
-      data: param,
-      header: {
-        "content-type": "application/json", // 默认值
-      },
-      success(res) {
-        Toast.success("成功");
-        setTimeout(function () {
-          wx.navigateTo({
-            url: "../vaccination_info",
-          });
-        }, 500);
-      },
+    vaccine.infoAddOrUpdate(this.data.add_or_update, param, function (res) {
+      Toast.success("成功");
+      setTimeout(function () {
+        wx.navigateTo({
+          url: "../vaccination_info",
+        });
+      }, 500);
     });
   },
 

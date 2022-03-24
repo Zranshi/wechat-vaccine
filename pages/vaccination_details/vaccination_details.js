@@ -1,4 +1,6 @@
 // pages/vaccination_details/vaccination_details.js
+import user from "../../apis/user";
+import vaccine from "../../apis/vaccine";
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 
 Page({
@@ -15,25 +17,16 @@ Page({
   },
 
   onClose(event) {
-    let outer = this;
+    let that = this;
 
     const { position, instance } = event.detail;
     Dialog.confirm({
       message: "确定删除吗？",
     })
       .then(() => {
-        wx.request({
-          url: "http://172.20.10.2:8089/vn/details/delete",
-          data: {
-            id: parseInt(outer.data.del_id),
-          },
-          header: {
-            "content-type": "application/json", // 默认值
-          },
-          success() {
-            outer.setData({ vaccination_details: [] });
-            outer.onLoad();
-          },
+        vaccine.detailDelete(parseInt(that.data.del_id), function (res) {
+          that.setData({ vaccination_details: [] });
+          that.onLoad();
         });
       })
       .catch(() => {
@@ -51,60 +44,26 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let outer = this;
+    let that = this;
 
-    wx.request({
-      url: "http://172.20.10.2:8089/vn/details/getAll",
-      data: {},
-      header: {
-        "content-type": "application/json", // 默认值
-      },
-      success(res) {
-        for (let i = 0; i < res.data.vdList.length; i++) {
-          res.data.vdList[i].vaccinateTime = res.data.vdList[
-            i
-          ].vaccinateTime.replace("T", " ");
-          wx.request({
-            url: "http://172.20.10.2:8089/vi/info/find",
-            data: {
-              id: res.data.vdList[i].viid,
-            },
-            header: {
-              "content-type": "application/json", // 默认值
-            },
-            success(resp) {
-              res.data.vdList[i].place = resp.data.vnInfo.place;
-              wx.request({
-                url: "http://172.20.10.2:8089/vaccine/getInfo",
-                data: {
-                  id: resp.data.vnInfo.vid,
-                },
-                header: {
-                  "content-type": "application/json", // 默认值
-                },
-                success(respp) {
-                  res.data.vdList[i].type = respp.data.vaccineInfo.type;
-                  wx.request({
-                    url: "http://172.20.10.3:8089/user/info/getByUid",
-                    data: {
-                      uid: res.data.vdList[i].uid,
-                    },
-                    header: {
-                      "content-type": "application/json", // 默认值
-                    },
-                    success(resppp) {
-                      res.data.vdList[i].real_name = respp.data.us.realName;
-                      let content = outer.data.vaccination_details;
-                      content.push(res.data.vdList[i]);
-                      outer.setData({ vaccination_details: content });
-                    },
-                  });
-                },
-              });
-            },
+    vaccine.detailGetAll(function (res) {
+      for (let i = 0; i < res.data.vdList.length; i++) {
+        res.data.vdList[i].vaccinateTime = res.data.vdList[
+          i
+        ].vaccinateTime.replace("T", " ");
+        vaccine.infoFind(res.data.vdList[i].viid, function (res) {
+          res.data.vdList[i].place = res.data.vnInfo.place;
+          vaccine.infoById(res.data.vnInfo.vid, function (respp) {
+            res.data.vdList[i].type = respp.data.vaccineInfo.type;
+            user.userInfo(res.data.vdList[i].uid, function (res) {
+              res.data.vdList[i].real_name = respp.data.us.realName;
+              let content = that.data.vaccination_details;
+              content.push(res.data.vdList[i]);
+              that.setData({ vaccination_details: content });
+            });
           });
-        }
-      },
+        });
+      }
     });
   },
 

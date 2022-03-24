@@ -1,6 +1,6 @@
 // pages/vaccination_info/vaccination_info.js
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
-
+const vaccine = require("../../apis/vaccine");
 Page({
   /**
    * 页面的初始数据
@@ -29,18 +29,9 @@ Page({
       message: "确定删除吗？",
     })
       .then(() => {
-        wx.request({
-          url: "http://172.20.10.2:8089/vi/info/delete",
-          data: {
-            id: parseInt(outer.data.del_id),
-          },
-          header: {
-            "content-type": "application/json", // 默认值
-          },
-          success() {
-            outer.setData({ vaccination_info: [] });
-            outer.onLoad();
-          },
+        vaccine.infoDelete(parseInt(outer.data.del_id), function (res) {
+          outer.setData({ vaccination_info: [] });
+          outer.onLoad();
         });
       })
       .catch(() => {
@@ -59,34 +50,17 @@ Page({
    */
   onLoad: function (options) {
     let outer = this;
-
-    wx.request({
-      url: "http://172.20.10.2:8089/vi/info/getAll",
-      data: {},
-      header: {
-        "content-type": "application/json", // 默认值
-      },
-      success(res) {
-        for (let i = 0; i < res.data.viList.length; i++) {
-          res.data.viList[i].vtime = res.data.viList[i].vtime.replace("T", " ");
-          wx.request({
-            url: "http://172.20.10.2:8089/vaccine/getInfo",
-            data: {
-              id: res.data.viList[i].id,
-            },
-            header: {
-              "content-type": "application/json", // 默认值
-            },
-            success(resp) {
-              delete resp.data.vaccineInfo["id"];
-              Object.assign(res.data.viList[i], resp.data.vaccineInfo);
-              let content = outer.data.vaccination_info;
-              content.push(res.data.viList[i]);
-              outer.setData({ vaccination_info: content });
-            },
-          });
-        }
-      },
+    vaccine.infoGetAll(function (res) {
+      for (let i = 0; i < res.data.viList.length; i++) {
+        res.data.viList[i].vtime = res.data.viList[i].vtime.replace("T", " ");
+        vaccine.infoById(res.data.viList[i].id, function (res) {
+          delete res.data.vaccineInfo["id"];
+          Object.assign(res.data.viList[i], res.data.vaccineInfo);
+          let content = outer.data.vaccination_info;
+          content.push(res.data.viList[i]);
+          outer.setData({ vaccination_info: content });
+        });
+      }
     });
   },
 

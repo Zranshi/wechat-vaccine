@@ -1,5 +1,6 @@
 // pages/vaccine/vaccine.js
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
+const vaccine = require("../../apis/vaccine");
 
 Page({
   /**
@@ -29,18 +30,9 @@ Page({
       message: "确定删除吗？",
     })
       .then(() => {
-        wx.request({
-          url: "http://172.20.10.2:8089/vaccine/remove",
-          data: {
-            id: parseInt(outer.data.del_id),
-          },
-          header: {
-            "content-type": "application/json", // 默认值
-          },
-          success() {
-            outer.setData({ vaccine: [] });
-            outer.onLoad();
-          },
+        vaccine.remove(parseInt(outer.data.del_id), function (res) {
+          outer.setData({ vaccine: [] });
+          outer.onLoad();
         });
       })
       .catch(() => {
@@ -59,36 +51,28 @@ Page({
    */
   onLoad: function (options) {
     let outer = this;
-
-    wx.request({
-      url: "http://172.20.10.2:8089/vaccine/getAll",
-      data: {},
-      header: {
-        "content-type": "application/json", // 默认值
-      },
-      success(res) {
-        for (let i = 0; i < res.data.vList.length; i++) {
-          let content = res.data.vList[i];
-          content["simple_details"] = content["details"];
-          if (content["simple_details"].length > 6) {
-            let simple_details = "";
-            for (let j = 0; j < 5; j++) simple_details += content["details"][j];
-            simple_details += "...";
-            content["simple_details"] = simple_details;
-          }
-          content["simple_company"] = content["company"];
-          if (content["simple_company"].length > 9) {
-            let simple_company = "";
-            for (let j = 0; j < 8; j++) simple_company += content["company"][j];
-            simple_company += "...";
-            content["simple_company"] = simple_company;
-          }
-
-          let this_data = outer.data.vaccine;
-          this_data.push(content);
-          outer.setData({ vaccine: this_data });
+    vaccine.getVaccines(function (res) {
+      for (let i = 0; i < res.data.vList.length; i++) {
+        let content = res.data.vList[i];
+        content["simple_details"] = content["details"];
+        if (content["simple_details"].length > 6) {
+          let simple_details = "";
+          for (let j = 0; j < 5; j++) simple_details += content["details"][j];
+          simple_details += "...";
+          content["simple_details"] = simple_details;
         }
-      },
+        content["simple_company"] = content["company"];
+        if (content["simple_company"].length > 9) {
+          let simple_company = "";
+          for (let j = 0; j < 8; j++) simple_company += content["company"][j];
+          simple_company += "...";
+          content["simple_company"] = simple_company;
+        }
+
+        let this_data = outer.data.vaccine;
+        this_data.push(content);
+        outer.setData({ vaccine: this_data });
+      }
     });
   },
 

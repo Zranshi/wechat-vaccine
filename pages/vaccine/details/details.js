@@ -1,5 +1,6 @@
 // pages/vaccine/details/details.js
 import Toast from "../../../miniprogram_npm/@vant/weapp/toast/toast";
+const vaccine = require("../../../apis/vaccine");
 
 Page({
   /**
@@ -49,7 +50,6 @@ Page({
       return;
     }
 
-    let url = "http://172.20.10.2:8089/vaccine/" + this.data.add_or_update;
     let param = {};
     param["type"] = this.data.type;
     param["code"] = this.data.code;
@@ -60,21 +60,13 @@ Page({
     if (this.data.add_or_update == "update") {
       param["id"] = this.data.id;
     }
-
-    wx.request({
-      url: url,
-      data: param,
-      header: {
-        "content-type": "application/json", // 默认值
-      },
-      success(res) {
-        Toast.success("成功");
-        setTimeout(function () {
-          wx.navigateTo({
-            url: "../vaccine",
-          });
-        }, 500);
-      },
+    vaccine.vaccineAddOrUpdate(this.data.add_or_update, param, function (res) {
+      Toast.success("成功");
+      setTimeout(function () {
+        wx.navigateTo({
+          url: "../vaccine",
+        });
+      }, 500);
     });
   },
 
